@@ -1,3 +1,48 @@
+# meccanismo delle PR e delle FORK
+
+1 - cliccare sul pulsante FORK presente su https://github.com/pan-studio/coronadata
+2 - in questo modo, il progetto viene forkato nel tuo repositori. questo vuol dire che, tutto cio che verra' fatto sul master potrai pullarlo nel tuo repositori, e viceversa
+
+## Setup progetto
+
+$ git clone https://github.com/iltuousername/coronadata
+$ git remote set-url origin https://github.com/iltuousername/coronadata.git
+$ git remote add upstream https://github.com/pan-studio/coronadata.git
+$ git fetch upstream
+\$ git branch -u upstream/master master
+
+## Creare un nuovo branch
+
+$ git checkout master
+$ git fetch && git rebase
+$ git checkout -b <nome-branch>
+$ git fetch upstream
+$ git rebase
+$ git push -u origin <nome-branch>
+
+## Creare una PR
+
+$ git add .
+$ git commit (—> creare messaggio di commit)
+\$ git push -u origin <nome-branch>
+Andare su GitHub per creare PR
+
+## Pushare modifiche
+
+$ git add .
+$ git commit -m "<breve-descrizione>"
+\$ git push -u origin <nome-branch>
+
+## Allineare il proprio branch locale con master e pushare di nuovo sulla PR
+
+$ git pull upstream master
+$ git push -u origin <nome-branch>
+
+## Rimozione di un branch locale e remoto
+
+$ git push --delete <remote_name> <branch_name>
+$ git branch -D <branch_name>
+
 # Falcon React - ReactJS Dashboard & WebApp Template
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
