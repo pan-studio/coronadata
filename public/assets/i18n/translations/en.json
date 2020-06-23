@@ -1,0 +1,17 @@
+{
+    "infectedLineCharts.data": "Date",
+    "infectedLineCharts.positives": "Positives",
+    "infectedLineCharts.in_hospital": "In Hospital",
+    "infectedLineCharts.in_therapy": "Intensive care",
+    "infectedLineCharts.death": "Death",
+    "infectedLineCharts.health": "Health",
+    "infectedLineCharts.in_hospital_with_sinh": "hospitalized with symptoms",
+    "infectedLineCharts.isolated": "home isolation",
+    "infectedLineCharts.new_positive": "New positives",
+    "infectedLineCharts.total": "Total",
+    "infectedLineCharts.tamp": "swab",
+    "infectedLineCharts.yesterday": "yesterday",
+    "infectedLineCharts.today": "today",
+    "infectedLineCharts.at_hours": "at hours",
+    "toast.welcome": " Welcome to <strong>CoronaData</strong>!<br />All the number of Corona Virus"
+}

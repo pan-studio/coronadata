@@ -1,0 +1,68 @@
+.Board {
+    position: relative;
+    margin: 0 auto;
+    background-color: #000;
+    background-image:
+        linear-gradient(#333 1px, transparent 1px),
+        linear-gradient(90deg, #333 1px, transparent 1px);
+}
+
+.Cell {
+    background: #ccc;
+    position: absolute;
+}
+
+.EMPTY {
+    background: black;
+}
+
+.YOUNG_HEALTH {
+    background: yellow;
+}
+
+.OLD_HEALTH {
+    background:red;
+}
+
+.ADULT_HEALTH {
+    background: green;
+}
+
+.YOUNG_POSITIVE {
+    background:white;
+}
+
+.OLD_POSITIVE {
+    background:white;
+}
+
+.ADULT_POSITIVE {
+    background:white;
+}
+
+.HEALTH {
+    background:green;
+}
+
+.POSITIVE {
+    background:orange;
+}
+
+.RECOVERED {
+    background:orangered;
+}
+
+.DIE {
+    background:red;
+}
+
+
+
+.controls {
+    margin-top: 20px;
+}
+
+.button {
+    margin-left: 12px;
+    cursor: pointer;
+}

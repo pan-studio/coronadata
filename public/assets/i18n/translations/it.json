@@ -1,0 +1,17 @@
+{
+    "infectedLineCharts.data": "Data",
+    "infectedLineCharts.positives": "Positivi",
+    "infectedLineCharts.in_hospital": "Ospedalizzati",
+    "infectedLineCharts.in_therapy": "In terapia intensiva",
+    "infectedLineCharts.death": "Deceduti",
+    "infectedLineCharts.health": "Dimessi guariti",
+    "infectedLineCharts.in_hospital_with_sinh": "Ricoverati con sintomi",
+    "infectedLineCharts.isolated": "Isolamento domiciliare",
+    "infectedLineCharts.new_positive": "Nuovi attualmente positivi",
+    "infectedLineCharts.total": "Totale Casi",
+    "infectedLineCharts.tamp": "Tamponi",
+    "infectedLineCharts.yesterday": "Ieri",
+    "infectedLineCharts.today": "Oggi",
+    "infectedLineCharts.at_hours": "alle ore",
+    "toast.welcome": " Benvenuti <strong>in CoronaData</strong>!<br />Tutti i numeri del coronavirus"
+}
