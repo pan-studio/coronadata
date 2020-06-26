@@ -111,8 +111,8 @@ const Dashboard = () => {
           dataByStatusTmp.terapia_intensiva.push(element.terapia_intensiva);
           dataByStatusTmp.totale_ospedalizzati.push(element.totale_ospedalizzati);
           dataByStatusTmp.isolamento_domiciliare.push(element.isolamento_domiciliare);
-          dataByStatusTmp.totale_attualmente_positivi.push(element.totale_attualmente_positivi);
-          dataByStatusTmp.nuovi_attualmente_positivi.push(element.nuovi_attualmente_positivi);
+          dataByStatusTmp.totale_attualmente_positivi.push(element.totale_positivi);
+          dataByStatusTmp.nuovi_attualmente_positivi.push(element.nuovi_positivi);
           dataByStatusTmp.dimessi_guariti.push(element.dimessi_guariti);
           dataByStatusTmp.deceduti.push(element.deceduti);
           dataByStatusTmp.totale_casi.push(element.totale_casi);
