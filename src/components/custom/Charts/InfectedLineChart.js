@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Row, Col, Card, CardBody, CustomInput } from 'reactstrap';
+import { Row, Col, Card, CardBody, CustomInput, Input } from 'reactstrap';
 import { Line } from 'react-chartjs-2';
 import { rgbaColor, themeColors, colorsWithOpacity, colors } from '../../../helpers/utils';
 import AppContext from '../../../context/Context';
@@ -12,6 +12,10 @@ const InfectedLineChart = (props) => {
   const [infectedStatus, setInfectedStatus] = useState(FIELDS.TOTALE_ATTUALMENTE_POSITIVI);
   const [dateTime, setDateTime] = useState(props.dateTime);
   const [dataByStatus, setDataByStatus] = useState(props.dataByStatus);
+
+  const [datiRegionaliAll, setDatiRegionaliAll] = useState(props.datiRegionaliAll)
+  const [datiNazionali, setDatiNazioni] = useState(props.dataByStatus)
+  const [dateTimeNazione, setDateTimeNazionale] = useState(props.dateTime)
 
   const { isDark } = useContext(AppContext);
   const [lPositivi, setLpositivi] = useState(false);
@@ -220,6 +224,18 @@ const InfectedLineChart = (props) => {
     }
   };
 
+  const regions ={
+    optionList(){
+      const options = [<option key='0' value='0'>Italia</option>]
+      datiRegionaliAll.forEach((regione, index) =>{
+        options.push(
+          <option key={index} value={index}>{regione.denominazione_regione}</option>
+        )
+      })
+      return options
+    }
+  } 
+
   return (
 
     <>
@@ -232,6 +248,14 @@ const InfectedLineChart = (props) => {
               <p className="fs--1 font-weight-semi-bold">
                 Seleziona o deseleziona le caselle per paragonare i dati
               </p>
+            </Col>
+            <Col>
+              <h4 className="text-white mb-0">Seleziona la regione di interesse</h4>
+              <Input type="select" name="region" id="region"
+                onChange={({target})=>{ console.log(target.value)}}
+               >
+                {regions.optionList()}
+              </Input>
             </Col>
             <Row>
               <Col xs="auto" className="d-none d-sm-block">
