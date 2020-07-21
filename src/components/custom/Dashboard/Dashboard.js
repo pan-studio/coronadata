@@ -20,8 +20,8 @@ import CalendarRange from '../Calendars/CalendarRange';
 import moment from 'moment';
 import LeafletMap from '../LeafletMap/LeafletMap';
 //offline 
-import { regional } from '../../../offline/regions'
-import { dati } from '../../../offline/data'
+// import { regional } from '../../../offline/regions'
+// import { dati } from '../../../offline/data'
 
 const DashboardDataTable = loadable(() => import('../DataTable/DataTable'));
 const ActiveUsersMap = loadable(() => import('../../dashboard/ActiveRegionsMap'));
@@ -78,6 +78,18 @@ const Dashboard = () => {
   }]);
   const [dateTime, setDateTime] = useState(['0']);
   const [cardsPills, setCardsPills] = useState([]);
+  const [datiNazionali, setDatiNazionali] = useState({
+    ricoverati_con_sintomi: [0],
+    terapia_intensiva: [0],
+    totale_ospedalizzati: [0],
+    isolamento_domiciliare: [0],
+    totale_attualmente_positivi: [0],
+    nuovi_attualmente_positivi: [0],
+    dimessi_guariti: [0],
+    deceduti: [0],
+    totale_casi: [0],
+    tamponi: [0]
+  })
   const [dataByStatus, setDataByStatus] = useState({
     ricoverati_con_sintomi: [0],
     terapia_intensiva: [0],
@@ -96,11 +108,11 @@ const Dashboard = () => {
   useEffect(() => {
 
 
-    // fetch('https://cors-anywhere.herokuapp.com/http://www.coronadata.it/getdata.php?data=andamentoNazionale').
-    //   then(response => response.json())
-    //   .then((data) => {
+    fetch('https://cors-anywhere.herokuapp.com/http://www.coronadata.it/getdata.php?data=andamentoNazionale').
+      then(response => response.json())
+      .then((data) => {
         // debugger;
-        const data = dati
+        // const data = dati
         var dateTimeTmp = [];
         let cardsPillsTmp = [];
         var dataByStatusTmp = {
@@ -129,9 +141,27 @@ const Dashboard = () => {
           dataByStatusTmp.totale_casi.push(element.totale_casi);
           dataByStatusTmp.tamponi.push(element.tamponi);
         });
+        const nazione = {
+          codice_regione: 100,
+          dataByStatus:{
+            ricoverati_con_sintomi: dataByStatusTmp.ricoverati_con_sintomi.slice(0),
+            terapia_intensiva: dataByStatusTmp.terapia_intensiva.slice(0),
+            totale_ospedalizzati: dataByStatusTmp.totale_ospedalizzati.slice(0),
+            isolamento_domiciliare: dataByStatusTmp.isolamento_domiciliare.slice(0),
+            totale_attualmente_positivi: dataByStatusTmp.totale_attualmente_positivi.slice(0),
+            nuovi_attualmente_positivi: dataByStatusTmp.nuovi_attualmente_positivi.slice(0),
+            dimessi_guariti: dataByStatusTmp.dimessi_guariti.slice(0),
+            deceduti: dataByStatusTmp.deceduti.slice(0),
+            totale_casi: dataByStatusTmp.totale_casi.slice(0),
+            tamponi: dataByStatusTmp.tamponi.slice(0),
+          }
+        }
+        setDatiNazionali(nazione)
         setDatiTotali(data);
         setDateTime(dateTimeTmp);
-        setDataByStatus(dataByStatusTmp);
+        setDataByStatus(dataByStatusTmp)
+         
+        
 
         var today = dateTimeTmp[dateTimeTmp.length - 1].split('-');
         var yesterday = dateTimeTmp[dateTimeTmp.length - 2].split('-');
@@ -148,7 +178,7 @@ const Dashboard = () => {
             dayTo={today[0]} monthTo={convertMonthFromNumberToString(today[1])} />
 
         </CardSummary>);
-        cardsPillsTmp.push(<CardSummary rate={evaluatePergentageBetweenTwoNumber(dataByStatusTmp.dimessi_guariti[dataByStatus.dimessi_guariti.length - 2],
+        cardsPillsTmp.push(<CardSummary rate={evaluatePergentageBetweenTwoNumber(dataByStatusTmp.dimessi_guariti[dataByStatusTmp.dimessi_guariti.length - 2],
           dataByStatusTmp.dimessi_guariti[dataByStatusTmp.dimessi_guariti.length - 1]) + '%'} title="Guariti" color="success" linkText="Vedi tutti i guariti">
           <CountUp end={dataByStatusTmp.dimessi_guariti[dataByStatusTmp.dimessi_guariti.length - 1]} duration={5} prefix="" separator="." decimal="," />
           <CalendarRange type="success" dayFrom={yesterday[0]} monthFrom={convertMonthFromNumberToString(yesterday[1])}
@@ -157,7 +187,7 @@ const Dashboard = () => {
         </CardSummary>);
         setCardsPills(cardsPillsTmp);
         setDataLoaded(true);
-    //   });
+      });
 
 
     fetch('https://cors-anywhere.herokuapp.com/' + ENDPOINT.ANDAMENTO_REGIONALE_LATEST)
@@ -168,50 +198,49 @@ const Dashboard = () => {
 
       });
 
-    // fetch('https://cors-anywhere.herokuapp.com/' + ENDPOINT.ANDAMENTO_REGIONALE)
-    //   .then(response => response.json())
-    //   .then((data) => {
-    //     // debugger;
-    //     var regions = [];
-    //     data.forEach(element => {
-    //       if (regions[element.codice_regione] === undefined || regions[element.codice_regione] === null) {
-    //         regions[element.codice_regione] = {
-    //           denominazione_regione: element.denominazione_regione,
-    //           dateTime: [],
-    //           dataByStatus: {
-    //             ricoverati_con_sintomi: [0],
-    //             terapia_intensiva: [0],
-    //             totale_ospedalizzati: [0],
-    //             isolamento_domiciliare: [0],
-    //             totale_attualmente_positivi: [0],
-    //             nuovi_attualmente_positivi: [0],
-    //             dimessi_guariti: [0],
-    //             deceduti: [0],
-    //             totale_casi: [0],
-    //             tamponi: [0],
-    //           }
-    //         }
-    //       }
-    //     });
-    //     data.forEach(element => {
-    //       regions[element.codice_regione].dateTime.push(convertDateFromString(element.data));
-    //       regions[element.codice_regione].dataByStatus.ricoverati_con_sintomi.push(element.ricoverati_con_sintomi);
-    //       regions[element.codice_regione].dataByStatus.terapia_intensiva.push(element.terapia_intensiva);
-    //       regions[element.codice_regione].dataByStatus.totale_ospedalizzati.push(element.totale_ospedalizzati);
-    //       regions[element.codice_regione].dataByStatus.isolamento_domiciliare.push(element.isolamento_domiciliare);
-    //       regions[element.codice_regione].dataByStatus.totale_attualmente_positivi.push(element.totale_positivi);
-    //       regions[element.codice_regione].dataByStatus.nuovi_attualmente_positivi.push(element.nuovi_positivi);
-    //       regions[element.codice_regione].dataByStatus.dimessi_guariti.push(element.dimessi_guariti);
-    //       regions[element.codice_regione].dataByStatus.deceduti.push(element.deceduti);
-    //       regions[element.codice_regione].dataByStatus.totale_casi.push(element.totale_casi);
-    //       regions[element.codice_regione].dataByStatus.tamponi.push(element.tamponi);
-    //     })
-    //     setDatiRegionaliAll(regions);
-    //     setDatiRegionaliAllLoaded(true);
-    //   });
-
-    setDatiRegionaliAll(regional);
-    setDatiRegionaliAllLoaded(true);
+    fetch('https://cors-anywhere.herokuapp.com/' + ENDPOINT.ANDAMENTO_REGIONALE)
+      .then(response => response.json())
+      .then((data) => {
+        // debugger;
+        var regions = [];
+        data.forEach(element => {
+          if (regions[element.codice_regione] === undefined || regions[element.codice_regione] === null) {
+            regions[element.codice_regione] = {
+              denominazione_regione: element.denominazione_regione,
+              dateTime: [],
+              dataByStatus: {
+                ricoverati_con_sintomi: [0],
+                terapia_intensiva: [0],
+                totale_ospedalizzati: [0],
+                isolamento_domiciliare: [0],
+                totale_attualmente_positivi: [0],
+                nuovi_attualmente_positivi: [0],
+                dimessi_guariti: [0],
+                deceduti: [0],
+                totale_casi: [0],
+                tamponi: [0],
+              }
+            }
+          }
+        });
+        data.forEach(element => {
+          regions[element.codice_regione].dateTime.push(convertDateFromString(element.data));
+          regions[element.codice_regione].dataByStatus.ricoverati_con_sintomi.push(element.ricoverati_con_sintomi);
+          regions[element.codice_regione].dataByStatus.terapia_intensiva.push(element.terapia_intensiva);
+          regions[element.codice_regione].dataByStatus.totale_ospedalizzati.push(element.totale_ospedalizzati);
+          regions[element.codice_regione].dataByStatus.isolamento_domiciliare.push(element.isolamento_domiciliare);
+          regions[element.codice_regione].dataByStatus.totale_attualmente_positivi.push(element.totale_positivi);
+          regions[element.codice_regione].dataByStatus.nuovi_attualmente_positivi.push(element.nuovi_positivi);
+          regions[element.codice_regione].dataByStatus.dimessi_guariti.push(element.dimessi_guariti);
+          regions[element.codice_regione].dataByStatus.deceduti.push(element.deceduti);
+          regions[element.codice_regione].dataByStatus.totale_casi.push(element.totale_casi);
+          regions[element.codice_regione].dataByStatus.tamponi.push(element.tamponi);
+        })
+        setDatiRegionaliAll(regions);
+        setDatiRegionaliAllLoaded(true);
+      });
+    // setDatiRegionaliAll(regional);
+    // setDatiRegionaliAllLoaded(true);
 
 
     fetch('https://cors-anywhere.herokuapp.com/' + ENDPOINT.ITALY_GEOJSON)
@@ -264,11 +293,11 @@ const Dashboard = () => {
     var count = 0;
     for (var i = 0; i < dateTime.length; i++) {
       if (!endCount)
-        count = count + dataByStatus[field.value][i];
+        count = count + datiNazionali.dataByStatus[field.value][i];
 
       if (dateTime[i] == startDateConverted) {
         startIndex = i;
-        count = dataByStatus[field.value][i];
+        count = datiNazionali.dataByStatus[field.value][i];
       }
 
       if (dateTime[i] == endDateConverted) {
@@ -277,7 +306,7 @@ const Dashboard = () => {
       }
     }
     var result = {};
-    result.rate = evaluatePergentageBetweenTwoNumber(dataByStatus[field.value][startIndex], dataByStatus[field.value][endIndex]);
+    result.rate = evaluatePergentageBetweenTwoNumber(datiNazionali.dataByStatus[field.value][startIndex], datiNazionali.dataByStatus[field.value][endIndex]);
     result.startIndex = startIndex;
     result.endIndex = endIndex;
     result.startDateConverted = startDateConverted;
@@ -315,7 +344,7 @@ const Dashboard = () => {
         </Fragment>
       )}
       {(dataLoaded === true && datiRegionaliAllLoaded === true) && (
-        <InfectedLineChart dateTime={dateTime} dataByStatus={dataByStatus} datiRegionaliAll={datiRegionaliAll} />
+        <InfectedLineChart dateTime={dateTime} dataByStatus={dataByStatus} datiRegionaliAll={datiRegionaliAll} datiNazionali={datiNazionali} />
       )}
 
       <Card className="bg-light mb-3">
